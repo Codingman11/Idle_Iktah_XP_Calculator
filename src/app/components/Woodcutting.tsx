@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import BasicInfo from "@/components/BasicInfo";
+import 
 
 const equipmentOptions = [
   { name: 'Royal Crown', duration: 0.97 },
