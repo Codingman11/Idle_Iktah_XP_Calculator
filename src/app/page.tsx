@@ -1,34 +1,16 @@
-"use client"
-import { useEffect, useState } from 'react';
-import Navbar from '@/components/Navbar';
+import { fetchLevelData } from '@/backend/fetchLevelData';
+import HomeClient from './HomeClient';
 
-import Smithing from '@/components/Smithing';
-import Fishing from '@/components/Fishing';
-import Link from 'next/link';
-import Universal from './components/Universal';
-import Woodcutting from './components/Woodcutting';
+export default async function Home() {
+  const expData = await fetchLevelData();
 
-export default function Home() {
-  const [selectedTab, setSelectedTab] = useState('universal');
-
-  const renderTabContent = () => {
-    switch (selectedTab) {
-      case 'universal':
-        return <Universal />;
-      case 'woodcutting':
-        return <Woodcutting />;
-      case 'smithing':
-        return <Smithing />;
-      case 'fishing':
-        return <Fishing />;
-      default:
-        return <Universal />;
-    }
-  };
-  
   return (
     <div className="flex flex-col items-center justify-start min-h-screen py-2 mt-10">
-      <Navbar setSelectedTab={setSelectedTab}/>
-      {renderTabContent()}
-    </div>)
-}
+      <div>
+        <h1 className="text-4xl font-bold text-cyan-900">Welcome to Idle Iktah XP Calculator</h1>
+        <p className="text-lg text-cyan-800 text-center">Select a skill to view more information</p>
+      </div>
+      <HomeClient expData={expData} />
+    </div>
+  );
+} 

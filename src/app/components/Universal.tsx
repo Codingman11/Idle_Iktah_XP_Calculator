@@ -1,105 +1,83 @@
-"use client";
-import { useEffect, useState } from 'react';
-import BasicInfo from "@/components/BasicInfo";
-import { supabase } from "@/lib/supabase";
-import { PostgrestError } from '@supabase/supabase-js';
+// pages/universal.tsx
+import { useState } from 'react';
+import { GetStaticProps } from 'next';
+import BasicInfo from "@/components/BasicInfo/BasicInfo";
+import { supabase } from "@/backend/supabaseClient";
 
-interface LevelData {
-  Level: number;
+// Define the interface for ExperienceData
+
+interface ExperienceData {
+  level: number;
   TotalXP: number;
   XpToNextLevel: number;
 }
+// Define the interface for UniversalProps
+interface UniversalProps {
+  expData: ExperienceData[];
+}
 
-export default function Universal() {
-  const [levelData, setLevelData] = useState<LevelData[]>([]);
-  const [error, setError] = useState<PostgrestError | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+export default function Universal({ expData }: UniversalProps) {
   const [currentLevel, setCurrentLevel] = useState<number>(1);
   const [targetLevel, setTargetLevel] = useState<number>(2);
   const [xpRequired, setXpRequired] = useState<number>(0);
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase
-        .from("universal_xp")
-        .select("level, TotalXP, XpToNextLevel");
-      if (error) {
-        setError(error);
-      } else {
-        console.log("Fetched data:", data);
-        setLevelData(data.map((item: any) => ({
-          Level: item.level,
-          TotalXP: item.TotalXP,
-          XpToNextLevel: item.XpToNextLevel
-        })));
-      }
-      setLoading(false);
-    };
 
-    fetchData();
-  }, []);
-
+  console.log(expData);
   const calculateXP = () => {
-    const currentLevelData = levelData.find((level) => level.Level === currentLevel);
-    const targetLevelData = levelData.find((level) => level.Level === targetLevel);
+    const currentLevelData = expData.find((xpTable) => xpTable.level === currentLevel);
+    const targetLevelData = expData.find((xpTable) => xpTable.level === targetLevel);
 
-    console.log(currentLevelData, targetLevelData);
     if (currentLevelData && targetLevelData) {
-      
       setXpRequired(targetLevelData.TotalXP - currentLevelData.TotalXP);
     } else {
       setXpRequired(-1);
     }
-  }
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching data: {error.message}</div>;
-  }
+  };
 
   return (
-    <div className="text-center text-black">
-      <h2>Universal XP Calculator</h2>
-      <div>
-        <label>
-          Current Level:
-          <input
-            type="number"
-            value={currentLevel}
-            onChange={(e) => setCurrentLevel(Number(e.target.value))}
-          />
-        </label>
-        <label>
-          Target Level:
-          <input 
-            type="number"
-            value={targetLevel}
-            onChange={(e) => setTargetLevel(Number(e.target.value))}
-          />
-        </label>
-        <button onClick={calculateXP}>Calculate XP</button>
-      </div>
-      {xpRequired !== null && (<div>XP Required: {xpRequired}</div>)}
+
+    <div className="text-center text-black p-4">
+      <BasicInfo name="Universal" />
       <table>
-        <thead>
-          <tr>
-            <th>Level</th>
-            <th>Total XP</th>
-            <th>XP to Next Level</th>
-          </tr>
-        </thead>
         <tbody>
-          {levelData.map((level) => (
-            <tr key={level.Level}>
-              <td>{level.Level}</td>
-              <td>{level.TotalXP}</td>
-              <td>{level.XpToNextLevel}</td>
+          {expData.map((xpTable) => (
+            <tr key={xpTable.level}>
+              <td>{xpTable.level}</td>
+              <td>{xpTable.TotalXP}</td>
+              <td>{xpTable.XpToNextLevel}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      {/* <BasicInfo /> */}
     </div>
+
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const { data, error } = await supabase
+    .from('universal_xp')
+    .select('level, TotalXP, XpToNextLevel');
+
+  if (error) {
+    console.error("Error fetching level data:", error);
+    return {
+      props: {
+        expData: []
+      },
+      revalidate: 60 // Revalidate every minute
+    };
+  }
+
+  const expData = data.map((item) => ({
+    level: item.level,
+    TotalXP: item.TotalXP,
+    XpToNextLevel: item.XpToNextLevel
+  }));
+
+  return {
+    props: {
+      expData
+    },
+    revalidate: 3600 // Revalidate every hour
+  };
+};

@@ -8,10 +8,10 @@ const Navbar: React.FC<NavbarProps> = ({ setSelectedTab }) => {
   return (
     <nav className="flex justify-center space-x-4">
       <button
-        onClick={() => setSelectedTab('general')}
+        onClick={() => setSelectedTab('universal')}
         className='px-4 py-2 bg-blue-500 text-white rounded-lg border border-blue-700 hover:bg-blue-600'
       >
-        General
+        Universal
       </button>
       <button
         onClick={() => setSelectedTab('woodcutting')}

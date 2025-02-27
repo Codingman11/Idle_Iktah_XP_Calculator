@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import BasicInfo from "@/components/BasicInfo";
-import 
+import BasicInfo from "@/components/BasicInfo/BasicInfo";
+
 
 const equipmentOptions = [
   { name: 'Royal Crown', duration: 0.97 },
@@ -45,43 +45,8 @@ export default function Woodcutting() {
 
   return (
     <div className="text-center text-black p-4">
-      <h2 className="text-2xl font-bold mb-4">Woodcutting XP Calculator</h2>
-      <BasicInfo />
-      <div className="mb-4">
-        <label className="block mb-2">Select Tree:</label>
-        <select
-          value={selectedTree.name}
-          onChange={(e) => setSelectedTree(treeOptions.find(tree => tree.name === e.target.value)!)}
-          className="w-full p-2 border border-gray-300 rounded"
-        >
-          {treeOptions.map((tree) => (
-            <option key={tree.name} value={tree.name}>
-              {tree.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="mb-4">
-        <label className="block mb-2">Select Equipments:</label>
-        {equipmentOptions.map((equipment) => (
-          <div key={equipment.name} className="flex items-center mb-2">
-            <input
-              type="checkbox"
-              id={equipment.name}
-              checked={selectedEquipments.includes(equipment.name)}
-              onChange={() => handleEquipmentChange(equipment.name)}
-              className="mr-2"
-            />
-            <label htmlFor={equipment.name}>{equipment.name}</label>
-          </div>
-        ))}
-      </div>
-      <div className="mt-4">
-        <h3 className="text-xl font-bold">Results</h3>
-        <p>Base Duration: {selectedTree.time} seconds</p>
-        <p>Calculated Duration: {calculateDuration().toFixed(2)} seconds</p>
-        <p>XP per Hour: {(selectedTree.xp / calculateDuration() * 3600).toFixed(2)}</p>
-      </div>
+      <BasicInfo name="Woodcutting"/>
+     
     </div>
   );
 }

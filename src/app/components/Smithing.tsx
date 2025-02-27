@@ -1,10 +1,10 @@
-import BasicInfo from "@/components/BasicInfo";
+import BasicInfo from "@/components/BasicInfo/BasicInfo";
 
 export default function Smithing() {
     return (
-      <div className="text-center text-black">
-        <h2>Smithing XP Calculator</h2>
-        <BasicInfo />
+      <div className="text-center text-black p-4">
+       
+        <BasicInfo name="Smithing" />
       </div>
     );
   }
