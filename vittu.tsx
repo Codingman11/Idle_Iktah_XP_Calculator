@@ -144,6 +144,25 @@ export default function Universal() {
 }
 
 
+        {/* <div>
+          <label className="block mb-1">Current EXP:</label>
+          <input
+            type="number"
+            value={currentExp}
+            onChange={(e) => setCurrentExp(Number(e.target.value))}
+            className="p-2 w-full border border-gray-600 rounded"
+          />
+        </div>
+        <div>
+          <label className="block mb-1">Target EXP:</label>
+          <input
+            type="number"
+            value={targetExp}
+            onChange={(e) => setTargetExp(Number(e.target.value))}
+            className="p-2 w-full border border-gray-600 rounded"
+          />
+        </div> */}
+
 
 return ( <div className="mb-4">
   <label className="block mb-2">Select Tree:</label>

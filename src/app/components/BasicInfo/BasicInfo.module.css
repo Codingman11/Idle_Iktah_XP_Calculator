@@ -8,3 +8,9 @@
 .noSpinner {
   -moz-appearance: textfield;
 }
+
+.disabledInput {
+  background-color: #929599;
+  
+  cursor: not-allowed;
+}
