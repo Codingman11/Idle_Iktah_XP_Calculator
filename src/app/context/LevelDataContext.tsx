@@ -1,11 +1,13 @@
 import {createContext, useContext, ReactNode, useState} from 'react';
 
+// Define the interface for ExperienceData
 interface ExperienceData {
     level: number;
     TotalXP: number;
     XpToNextLevel: number;
 }
 
+// Define the context type
 interface ExperienceDataContextType {
     expData: ExperienceData[];
     currentLevel: number;
