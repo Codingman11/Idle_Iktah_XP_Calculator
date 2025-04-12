@@ -53,6 +53,12 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ name }) => {
   };
 
   const handleCurrentLevelChange = (level: string) => {
+    if (level === '') {
+      setPropsCurrentLevel('');
+      setCurrentExp('');
+      updateLevels('', '', targetLevel, expRequired);
+      return;
+  }   
     const levelValue = level === '' ? '' : Number(level);
     setPropsCurrentLevel(levelValue);
     const newExp = levelValue === '' ? '' : findExpData(Number(levelValue))?.TotalXP || 0;
@@ -77,6 +83,7 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ name }) => {
           <input
             type="number"
             value={currentLevel}
+            placeholder='0'
             className={`p-2 w-full border border-gray-600 rounded text-black ${styles.noSpinner}`}
             onChange={(e) => handleCurrentLevelChange(e.target.value)}
           />
@@ -113,7 +120,16 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ name }) => {
       <div className="mt-4">
         <p className="text-lg">Experience Till Target: {calculateRemainingExp() ?? 'N/A'}</p>
       </div>
-      {/* <div className="mt-4">
+
+      <div className="mt-4">
+      <h1 className="text-4xl font-bold text-center mb-4">Tools:</h1>
+      </div>
+
+    </div>
+  );
+
+
+        {/* <div className="mt-4">
         <h2 className="text-2xl font-semibold mb-2">Level Data</h2>
         <table className="w-full">
           <thead>
@@ -134,10 +150,6 @@ const BasicInfo: React.FC<BasicInfoProps> = ({ name }) => {
           </tbody>
         </table>
       </div> */}
-    </div>
-  );
-
-
   // const [selectedEquipments, setSelectedEquipments] = useState<string[]>([]);
 
   // const handleEquipmentChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

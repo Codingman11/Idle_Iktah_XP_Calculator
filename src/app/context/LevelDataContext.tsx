@@ -10,11 +10,11 @@ interface ExperienceData {
 // Define the context type
 interface ExperienceDataContextType {
     expData: ExperienceData[];
-    currentLevel: number;
+    currentLevel: number | string;
     targetLevel: number;
     expRequired: number;
-    currentExp: number;
-    updateLevels: (current: number, currentExp: number , target: number, exp: number) => void;
+    currentExp: number | string;
+    updateLevels: (current: number | string, currentExp: number | string , target: number, exp: number) => void;
 }
 
 const LevelDataContext = createContext<ExperienceDataContextType | undefined>({
@@ -23,7 +23,7 @@ const LevelDataContext = createContext<ExperienceDataContextType | undefined>({
     currentExp: 0,
     targetLevel: 0,
     expRequired: 0,
-    updateLevels: function (current: number, currentExp: number, target: number, targetExp: number): void {
+    updateLevels: function (current: number | string, currentExp: number | string, target: number, targetExp: number): void {
         throw new Error('Function not implemented.');
     }
 });

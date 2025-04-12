@@ -9,7 +9,7 @@ interface SkillComponentProps extends UniversalProps {
 export default function SkillComponent({ expData, name }: SkillComponentProps) {
     return (
       <LevelDataProvider expData={expData}>
-        <div className="text-center text-black p-4">
+        <div className="text-center text-black pl-4 pr-4">
           <BasicInfo name={name} /> 
         </div>
       </LevelDataProvider>

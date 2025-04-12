@@ -5,7 +5,7 @@ import { IconText } from "./IconText";
 interface IconLayoutProps {
     setSelectedTab: (tab: string) => void;
 }
-const iconData = [
+export const iconData = [
     { iconSrc: '/icons/universal.png', text: 'Universal', tab: 'universal' },
     { iconSrc: '/icons/home.png', text: 'Home', tab: 'home' },
     { iconSrc: '/icons/carpentry.png', text: 'Carpentry', tab: 'carpentry' },

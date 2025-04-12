@@ -8,3 +8,12 @@ export interface ExperienceData {
   export interface UniversalProps {
     expData: ExperienceData[];
   }
+
+  export interface SkillsData {
+    id: number;
+    name: string;
+  }
+
+  export interface SkillsProps {
+    skillsData: SkillsData[];
+  }

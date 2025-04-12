@@ -203,3 +203,145 @@ return ( <div className="mb-4">
 
 
 
+
+
+'use client';
+import React from 'react';
+
+interface ListViewProps {
+  skills: Array<{
+    name: string;
+    icon: string;
+  }>;
+  onSkillSelect: (skillName: string) => void;
+  selectedSkill: string;
+}
+
+export const ListView: React.FC<ListViewProps> = ({ skills, onSkillSelect, selectedSkill }) => {
+  return (
+    <div className="bg-white rounded-lg shadow p-4 w-full">
+      <h2 className="text-xl font-bold mb-4">Skills</h2>
+      <div className="space-y-2">
+        {skills.map((skill) => (
+          <button
+            key={skill.name}
+            onClick={() => onSkillSelect(skill.name.toLowerCase())}
+            className={`w-full text-left px-4 py-2 rounded-md transition-colors ${
+              selectedSkill === skill.name.toLowerCase()
+                ? 'bg-blue-500 text-white'
+                : 'hover:bg-gray-100'
+            }`}
+          >
+            <div className="flex items-center space-x-2">
+              <img
+                src={skill.icon}
+                alt={`${skill.name} icon`}
+                className="w-6 h-6"
+              />
+              <span>{skill.name}</span>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+"use client";
+import { useState } from 'react';
+import { ExperienceData } from '@/types';
+import { ListView } from './components/ListView';
+import SkillComponent from '@/components/SkillComponent';
+import BasicInfo from './components/BasicInfo/BasicInfo';
+
+interface HomeClientProps {
+  expData: ExperienceData[];
+}
+
+const skillsList = [
+  { name: 'Universal', icon: '/icons/universal.png' },
+  { name: 'Home', icon: '/icons/home.png' },
+  { name: 'Carpentry', icon: '/icons/carpentry.png' },
+  { name: 'Enchanting', icon: '/icons/enchanting.png' },
+  { name: 'Community', icon: '/icons/community.png' },
+  { name: 'Crafting', icon: '/icons/crafting.png' },
+  { name: 'Smithing', icon: '/icons/smithing.png' },
+  { name: 'Cooking', icon: '/icons/cooking.png' },
+  { name: 'Alchemy', icon: '/icons/alchemy.png' },
+  { name: 'Woodcutting', icon: '/icons/woodcutting.png' },
+  { name: 'Mining', icon: '/icons/mining.png' },
+  { name: 'Fishing', icon: '/icons/fishing.png' },
+  { name: 'Gathering', icon: '/icons/gathering.png' },
+];
+
+type SkillKey = 'universal' | 'woodcutting' | 'smithing' | 'fishing' | 'alchemy' | 'mining' | 'home' |
+  'carpentry' | 'community' | 'cooking' | 'crafting' | 'enchanting' | 'gathering';
+
+const skillComponents: Record<SkillKey, string> = {
+  universal: 'Universal',
+  woodcutting: 'Woodcutting',
+  smithing: 'Smithing',
+  fishing: 'Fishing',
+  alchemy: 'Alchemy',
+  mining: 'Mining',
+  home: 'Home',
+  carpentry: 'Carpentry',
+  community: 'Community',
+  cooking: 'Cooking',
+  crafting: 'Crafting',
+  enchanting: 'Enchanting',
+  gathering: 'Gathering'
+};
+
+export default function HomeClient({ expData }: HomeClientProps) {
+  const [selectedTab, setSelectedTab] = useState<SkillKey>('universal');
+
+  const handleSkillSelect = (skillName: string) => {
+    if (skillName in skillComponents) {
+      setSelectedTab(skillName as SkillKey);
+    } else {
+      setSelectedTab('universal');
+      console.warn(`Invalid skill selected: ${skillName}`);
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Left side - ListView */}
+      <div className="w-1/4 p-4">
+        <ListView 
+          skills={skillsList}
+          onSkillSelect={handleSkillSelect}
+          selectedSkill={selectedTab}
+        />
+      </div>
+
+      {/* Right side - Calculator/BasicInfo */}
+      <div className="w-3/4 p-4">
+        <BasicInfo name={skillComponents[selectedTab]} />
+      </div>
+    </div>
+  );
+}
+
+import { fetchLevelData } from '@/backend/fetchLevelData';
+import HomeClient from './HomeClient';
+import Navbar from './components/Navbar';
+
+export default async function Home() {
+  const expData = await fetchLevelData();
+
+  return (
+    <div>
+      {/*<Navbar />/*/}
+      <div className="flex flex-col items-center justify-start min-h-screen py-2 mt-10">
+        
+        <div className='right-3'>
+          <h1 className="text-4xl font-bold text-cyan-900 " >Welcome to Idle Iktah XP Calculator</h1>
+          <p className="text-lg text-cyan-800 text-center">Select a skill to view more information</p>
+        </div>
+        <HomeClient expData={expData} />
+      </div>
+    </div>
+  );
+} 
