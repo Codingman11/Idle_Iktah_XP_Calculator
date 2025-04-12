@@ -138,17 +138,28 @@ INSERT INTO equipment (id, equipment_name, equipment_type, duration_modifier) VA
 (17, 'None', 'Rings', 1.00),
 (18, 'Royal Ring', 'Rings', 0.99),
 (19, 'Axema''s Ring', 'Rings', 0.95),
-(20, 'Lunar Ring', 'Rings', 0.98),
-(21, 'None', 'Tool', 1.00),
-(22, 'Copper Axe', 'Tool', 0.95),
-(23, 'Iron Axe', 'Tool', 0.90),
-(24, 'Azurite Axe', 'Tool', 0.85),
-(25, 'Basalt Axe', 'Tool', 0.80),
-(26, 'Klynite Axe', 'Tool', 0.75),
-(27, 'Jade Axe', 'Tool', 0.70);
+(20, 'Lunar Ring', 'Rings', 0.98)
+
+CREATE TABLE woodcutting_items (
+    item_name VARCHAR(50) PRIMARY KEY,
+    xp_per_item INT NOT NULL,
+    duration_modifier DECIMAL(5, 2) NOT NULL,
+    equipment_id INT FOREIGN KEY REFERENCES equipment(id)
+);
+
+INSERT INTO woodcutting_items (item_name, xp_per_item, duration_modifier, equipment_id) VALUES
+(1, 'None', 'Tool', 1.00),
+(2, 'Copper Axe', 'Tool', 0.95),
+(3, 'Iron Axe', 'Tool', 0.90),
+(4, 'Azurite Axe', 'Tool', 0.85),
+(5, 'Basalt Axe', 'Tool', 0.80),
+(6, 'Klynite Axe', 'Tool', 0.75),
+(7, 'Jade Axe', 'Tool', 0.70);
 
 
 CREATE TABLE woodcutting_locations (
     location_name VARCHAR(50) PRIMARY KEY,
     level_required INT NULL,
 )
+
+CREATE TABLE 

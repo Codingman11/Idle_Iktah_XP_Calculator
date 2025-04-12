@@ -9,7 +9,7 @@ interface IconTextProps {
 
 export const IconText: React.FC<IconTextProps> = ({ iconSrc, text, onClick }) => {  
     return (
-        <div className="flex flex-col items-center p-0.1">
+        <div className="flex gap-[2%] flex-wrap">
             <button
                 onClick={onClick}
                 className="flex flex-col items-center"
